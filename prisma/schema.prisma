@@ -1,0 +1,43 @@
+// Prismaスキーマファイル
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+// チャンネル設定
+model ChannelSetting {
+    channelId String @id
+    enabled   Boolean @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// レートリミット管理（モデルごと）
+model RateLimit {
+    modelName    String   @id // モデル名
+    requestCount Int      @default(0) // 現在のリクエスト数
+    tokenCount    Int      @default(0) // 現在のトークン数
+    lastResetMin  DateTime @default(now()) // 分単位のリセット時刻
+    lastResetDay  DateTime @default(now()) // 日単位のリセット時刻
+    dailyRequests Int      @default(0) // 今日のリクエスト数
+    
+    @@map("rate_limits")
+}
+
+// API使用履歴（デバッグ・分析用）
+model ApiUsage {
+    id          Int      @id @default(autoincrement())
+    modelName   String
+    tokens      Int
+    timestamp   DateTime @default(now())
+    success     Boolean  @default(true)
+    errorMessage String?
+    
+    @@map("api_usage")
+    @@index([modelName, timestamp])
+}
+

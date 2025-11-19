@@ -1,0 +1,42 @@
+# 依存関係
+node_modules/
+package-lock.json
+
+# ビルド成果物
+dist/
+*.tsbuildinfo
+
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# ログファイル
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# データベース
+*.db
+*.db-journal
+prisma/data/
+
+# 一時ファイル
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# キャッシュ
+.cache/
+.temp/
+
+# その他（JSONファイルは除外、ただし必要なものは許可）
+*.json
+!package.json
+!tsconfig.json
+!.env.example
